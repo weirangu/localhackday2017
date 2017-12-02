@@ -21,14 +21,12 @@ public class ItemDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_ITEM_ID = "item";
-    public static final String ARG_ITEM_DESC = "desc";
-    public static final String ARG_ITEM_DATE = "date";
-    public static final String ARG_ITEM_EMAIL = "email";
 
     /**
      * The name of this fragment.
      */
-    private String mName;
+    private int mID;
+    private EventData data;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -45,12 +43,14 @@ public class ItemDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mName = getArguments().getString(ARG_ITEM_ID);
+            mID = getArguments().getInt(ARG_ITEM_ID);
+            //TODO DOWNLOAD FILE
+            data = EventData.getData(mID);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mName);
+            if (appBarLayout != null){
+                appBarLayout.setTitle(data.name);
             }
         }
     }
@@ -60,11 +60,9 @@ public class ItemDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
-        if (mName != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mName);//TODO
-        }
-
+        ((TextView) rootView.findViewById(R.id.item_detail)).setText(data.name);
+        //((TextView) rootView.findViewById(R.id.item_detail_container)).setText(data.description);
+        //((TextView) rootView.findViewById(R.id.user_name)).setText(data.userEmail);
         return rootView;
     }
 }

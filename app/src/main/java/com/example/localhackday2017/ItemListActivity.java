@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -68,31 +65,25 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        ArrayList<EventData> items = new ArrayList<EventData>();
-        items.add(new EventData("Name",
-                "description",
-                new LatLng(45, 45),
-                new Date(2, 3, 4, 1, 2, 5),
-                "email@example.com",
-                new ArrayList<String>()
-                ));
-
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this,items, mTwoPane));
+        ArrayList<Integer> list = new ArrayList();
+        list.add(1);
+        list.add(2);
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, list, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ItemListActivity mParentActivity;
-        private final ArrayList<EventData> mValues;
+        private final ArrayList<Integer> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventData item = (EventData) view.getTag();
+                Integer item = (Integer) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.name);
+                    arguments.putInt(ItemDetailFragment.ARG_ITEM_ID, item);
                     ItemDetailFragment fragment = new ItemDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -101,7 +92,7 @@ public class ItemListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ItemDetailActivity.class);
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.name);
+                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
 
                     context.startActivity(intent);
                 }
@@ -109,7 +100,7 @@ public class ItemListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(ItemListActivity parent,
-                                      ArrayList<EventData> items,
+                                      ArrayList<Integer> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
@@ -125,7 +116,8 @@ public class ItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mContentView.setText(mValues.get(position).name);
+            //TODO GET NAME FROM SERVER
+            holder.mContentView.setText("Temporary Name");
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
