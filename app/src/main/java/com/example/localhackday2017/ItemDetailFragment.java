@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.localhackday2017.dummy.DummyContent;
-
 /**
  * A fragment representing a single Item detail screen.
  * This fragment is either contained in a {@link ItemListActivity}
@@ -22,12 +20,15 @@ public class ItemDetailFragment extends Fragment {
      * The fragment argument representing the item ID that this fragment
      * represents.
      */
-    public static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "item";
+    public static final String ARG_ITEM_DESC = "desc";
+    public static final String ARG_ITEM_DATE = "date";
+    public static final String ARG_ITEM_EMAIL = "email";
 
     /**
-     * The dummy content this fragment is presenting.
+     * The name of this fragment.
      */
-    private DummyContent.DummyItem mItem;
+    private String mName;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -44,12 +45,12 @@ public class ItemDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            mName = getArguments().getString(ARG_ITEM_ID);
 
             Activity activity = this.getActivity();
             CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
             if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.content);
+                appBarLayout.setTitle(mName);
             }
         }
     }
@@ -60,8 +61,8 @@ public class ItemDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mItem.details);
+        if (mName != null) {
+            ((TextView) rootView.findViewById(R.id.item_detail)).setText(mName);//TODO
         }
 
         return rootView;
