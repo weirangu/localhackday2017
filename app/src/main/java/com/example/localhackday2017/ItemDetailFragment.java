@@ -1,6 +1,8 @@
 package com.example.localhackday2017;
 
 import android.app.Activity;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.io.IOException;
+import java.util.Locale;
 
 /**
  * A fragment representing a single Item detail screen.
@@ -52,6 +57,8 @@ public class ItemDetailFragment extends Fragment {
             if (appBarLayout != null){
                 appBarLayout.setTitle(data.name);
             }
+            //View currentView = getView();
+            //((TextView)currentView.findViewById(R.id.user_name)).setText(data.userEmail);
         }
     }
 
@@ -59,10 +66,22 @@ public class ItemDetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.item_detail, container, false);
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        String closest = null;
+        try {
+            Address add = geocoder.getFromLocation(data.location.latitude, data.location.longitude, 1).get(0);
+            closest = add.getAddressLine(0);
 
-        ((TextView) rootView.findViewById(R.id.item_detail)).setText(data.name);
-        //((TextView) rootView.findViewById(R.id.item_detail_container)).setText(data.description);
-        //((TextView) rootView.findViewById(R.id.user_name)).setText(data.userEmail);
+        }
+        catch (IOException e)
+        {
+            closest = data.location.toString();
+        }
+        String text = data.description + "\n\n" + data.userEmail + "\n\n" + closest + "\n\n" + data.time.toLocaleString() + "\n\n";
+        for (int i = 0; i < data.eventTags.size(); i++){
+            text += data.eventTags.get(i) + ", ";
+        }
+        ((TextView) rootView.findViewById(R.id.item_detail)).setText(text);
         return rootView;
     }
 }
