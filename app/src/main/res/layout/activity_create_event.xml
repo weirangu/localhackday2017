@@ -24,6 +24,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="492dp"
+        android:paddingTop="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layout_editor_absoluteY="75dp">
 
@@ -46,12 +47,14 @@
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.AppCompatButton android:id="@+id/create_event_pick_date"
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/create_event_pick_date"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date:"
                 android:onClick="selectDate"
-                style="@style/Widget.AppCompat.Button.Borderless"/>
+                android:text="Date:" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
