@@ -16,4 +16,14 @@
     <string name="title_activity_main_maps">Map</string>
     <string name="title_item_list">Items</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="create_event_title">Create event</string>
+    <string name="create_event_name">Event Name</string>
+    <string name="create_event_location">Event Location</string>
+    <string name="create_event_location_autodetect">Current location</string>
+    <string name="create_event_description">Event Description</string>
+    <string name="create_event_tags">Tags</string>
+    <string name="create_event_visibility">Show event to:</string>
+    <string name="create_event_visibility_groups_only">My groups only</string>
+    <string name="create_event_visibility_friends_only">My friends only</string>
+    <string name="create_event_visibility_everyone">Everyone on campus</string>
 </resources>

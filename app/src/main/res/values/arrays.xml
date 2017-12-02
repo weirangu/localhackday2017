@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="create_event_visibilities">
+        <item>@string/create_event_visibility_everyone</item>
+        <item>@string/create_event_visibility_groups_only</item>
+        <item>@string/create_event_visibility_friends_only</item>
+    </string-array>
+</resources>
