@@ -45,7 +45,7 @@
         <activity
             android:name=".ItemListActivity"
             android:label="@string/title_item_list"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ItemDetailActivity"
             android:label="@string/title_item_detail"
@@ -55,6 +55,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.localhackday2017.ItemListActivity" />
         </activity>
+        <activity android:name=".CreateEventActivity"
+            android:label="@string/create_event_title"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
