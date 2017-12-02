@@ -1,5 +1,7 @@
 package com.example.localhackday2017;
 
+import android.content.Intent;
+import android.location.Location;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,6 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -32,6 +42,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 public class CreateEventActivity extends AppCompatActivity {
+    private LatLng location = new LatLng(0, 0);
 
     private Date selectedDate;
     private Button dateButton;
@@ -39,9 +50,21 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
+
+        //Button Event Listener
+        final Button button = findViewById(R.id.choose_location);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                try {
+                    startActivityForResult(new PlacePicker.IntentBuilder().build(CreateEventActivity.this), 0);
+                }
+                catch (GooglePlayServicesNotAvailableException e){}
+                catch (GooglePlayServicesRepairableException e){}
+            }
+        });
         dateButton = findViewById(R.id.create_event_pick_date);
         selectedDate = new Date(new Date().getTime() + 1000 * 60 * 60 /* one hour */);
         updateSelectedDate();
@@ -91,6 +114,13 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Place place = PlacePicker.getPlace(data, this);
+        String placeName = String.format("Place: %s", place.getName());
+        ((TextView) findViewById(R.id.location_name)).setText(placeName);
+        location = place.getLatLng();
+    }
     private void saveTheEvent() {
         String name = ((TextView)findViewById(R.id.create_event_name)).getText().toString();
         String description = ((TextView)findViewById(R.id.create_event_description)).getText().toString();

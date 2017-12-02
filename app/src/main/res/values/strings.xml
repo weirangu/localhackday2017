@@ -19,7 +19,7 @@
     <string name="create_event_title">Create event</string>
     <string name="create_event_name">Event Name</string>
     <string name="create_event_location">Event Location</string>
-    <string name="create_event_location_autodetect">Current location</string>
+    <string name="create_event_location_autodetect">Change location</string>
     <string name="create_event_description">Event Description</string>
     <string name="create_event_tags">Tags</string>
     <string name="create_event_visibility">Show event to:</string>
