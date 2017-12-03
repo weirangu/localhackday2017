@@ -75,7 +75,7 @@ public class EventData {
             LatLng eventLocation = new LatLng(lat, lon);
 
             TimeZone tz = TimeZone.getTimeZone("UTC");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'+00'");
             df.setTimeZone(tz);
             Date eventTime = df.parse(jsonObj.getString("Date") + "T" + jsonObj.getString("Time"));
             String email = jsonObj.getJSONObject("EventUser").getString("Email");

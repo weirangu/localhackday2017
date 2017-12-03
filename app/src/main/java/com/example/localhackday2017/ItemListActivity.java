@@ -2,6 +2,7 @@ package com.example.localhackday2017;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -9,16 +10,27 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.EventLog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * An activity representing a list of Items. This activity
@@ -35,6 +47,9 @@ public class ItemListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
+
+    private List<EventData> eventList = Collections.emptyList();
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +77,10 @@ public class ItemListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        View recyclerView = findViewById(R.id.item_list);
+        recyclerView = findViewById(R.id.item_list);
         assert recyclerView != null;
         setupRecyclerView((RecyclerView) recyclerView);
+        new RefreshEventsAsyncTask().execute();
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
@@ -142,6 +158,38 @@ public class ItemListActivity extends AppCompatActivity {
             ViewHolder(View view) {
                 super(view);
                 mContentView = view.findViewById(R.id.content);
+            }
+        }
+    }
+
+    private class RefreshEventsAsyncTask extends AsyncTask<Void, Void, List<EventData>> {
+        @Override
+        protected List<EventData> doInBackground(Void... jsonStrs) {
+            String postEndpoint = "https://data.chrysalis21.hasura-app.io/v1/query";
+            //postEndpoint = "http://localhost:1234";
+            String jsonStr = EventData.queryTemplate;
+            String authToken = "TOKEN HERE";
+            Request request = new Request.Builder()
+                    .url(postEndpoint)
+                    .post(RequestBody.create(MediaType.parse("application/json"), jsonStr))
+                    .addHeader("Authorization", authToken)
+                    .build();
+            OkHttpClient client = new OkHttpClient();
+            try {
+                Response response = client.newCall(request).execute();
+                String body = response.body().string();
+                Log.d("ItemListActivity", body);
+                return EventData.fromJSONString(body);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        @Override
+        protected void onPostExecute(List<EventData> result) {
+            if (result != null) {
+                eventList = result;
+                recyclerView.getAdapter().notifyDataSetChanged();
             }
         }
     }
