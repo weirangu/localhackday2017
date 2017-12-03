@@ -46,22 +46,6 @@ public class EventData {
         eventTags = tags;
     }
 
-    public static EventData getData(int id){
-        //TEMP
-        if (id == 1) return new EventData(1, "Name",
-                "description",
-                new LatLng(45, 45),
-                new Date(2, 3, 4, 1, 2, 5),
-                "email@example.com",
-                new ArrayList<String>());
-        else return new EventData(2, "Some other event!",
-                "description",
-                new LatLng(45, 45),
-                new Date(2, 3, 4, 1, 2, 5),
-                "email@example.com",
-                new ArrayList<String>());
-    }
-
     public static List<EventData> fromJSONString(String inStr) throws JSONException, ParseException {
         JSONArray jsonArray = new JSONArray(inStr);
         List<EventData> outData = new ArrayList<EventData>(jsonArray.length());

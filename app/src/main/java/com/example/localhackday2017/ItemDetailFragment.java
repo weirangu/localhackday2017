@@ -61,16 +61,8 @@ public class ItemDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             mID = getArguments().getInt(ARG_ITEM_ID);
-            //TODO DOWNLOAD FILE
-            data = EventData.getData(mID);
 
             Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null){
-                appBarLayout.setTitle(data.name);
-            }
-            //View currentView = getView();
-            //((TextView)currentView.findViewById(R.id.user_name)).setText(data.userEmail);
         }
         new GrabOneEventTask().execute(mID);
     }
@@ -84,6 +76,8 @@ public class ItemDetailFragment extends Fragment {
     }
 
     private void repopulate(View rootView) {
+        if (data == null)
+            return;
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
         String closest = null;
         try {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">localhackday2017</string>
+    <string name="app_name">Find It!</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
