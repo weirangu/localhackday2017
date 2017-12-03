@@ -59,7 +59,7 @@ public class CreateEventActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
-                    startActivityForResult(new PlacePicker.IntentBuilder().build(CreateEventActivity.this), 0);
+                    startActivityForResult(new PlacePicker.IntentBuilder().build(CreateEventActivity.this), 2);
                 }
                 catch (GooglePlayServicesNotAvailableException e){}
                 catch (GooglePlayServicesRepairableException e){}
@@ -116,6 +116,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode != 2 || resultCode != RESULT_OK)
+            return;
         Place place = PlacePicker.getPlace(data, this);
         String placeName = String.format("Place: %s", place.getName());
         ((TextView) findViewById(R.id.location_name)).setText(placeName);
@@ -139,8 +141,8 @@ public class CreateEventActivity extends AppCompatActivity {
             JSONObject object = new JSONObject();
             object.put("Name", name);
             object.put("Description", description);
-            object.put("Latitude", 12);
-            object.put("Longitude", 34);
+            object.put("Latitude", location.latitude);
+            object.put("Longitude", location.longitude);
             object.put("Date", dateISO);
             object.put("Time", timeISO);
             object.put("userid", 0);
