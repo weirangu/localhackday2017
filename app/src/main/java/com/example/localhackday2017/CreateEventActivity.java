@@ -170,7 +170,7 @@ public class CreateEventActivity extends AppCompatActivity {
             String postEndpoint = "https://data.chrysalis21.hasura-app.io/v1/query";
             //postEndpoint = "http://localhost:1234";
             String jsonStr = jsonStrs[0];
-            String authToken = "TOKEN HERE";
+            String authToken = SecretToken.database;
             Request request = new Request.Builder()
                     .url(postEndpoint)
                     .post(RequestBody.create(MediaType.parse("application/json"), jsonStr))

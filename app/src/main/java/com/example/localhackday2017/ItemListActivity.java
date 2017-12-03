@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -47,7 +48,7 @@ public class ItemListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
     private List<EventData> eventList = Collections.emptyList();
     private RecyclerView recyclerView;
 
@@ -56,10 +57,17 @@ public class ItemListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
 
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
-
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new RefreshEventsAsyncTask().execute();
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +148,6 @@ public class ItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            //TODO GET NAME FROM SERVER
             holder.mContentView.setText("Temporary Name");
 
             holder.itemView.setTag(mValues.get(position));
@@ -168,7 +175,7 @@ public class ItemListActivity extends AppCompatActivity {
             String postEndpoint = "https://data.chrysalis21.hasura-app.io/v1/query";
             //postEndpoint = "http://localhost:1234";
             String jsonStr = EventData.queryTemplate;
-            String authToken = "TOKEN HERE";
+            String authToken = SecretToken.database;
             Request request = new Request.Builder()
                     .url(postEndpoint)
                     .post(RequestBody.create(MediaType.parse("application/json"), jsonStr))
@@ -191,6 +198,11 @@ public class ItemListActivity extends AppCompatActivity {
                 eventList = result;
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
+            if (result != null)
+            Log.d("Item list activity", result.toString());
+            else
+                Log.d("Item list activity", "null");
+            swipeRefreshLayout.setRefreshing(false);
         }
     }
 }
