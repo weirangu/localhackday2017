@@ -92,30 +92,22 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        ArrayList<EventData> list = new ArrayList();
-        list.add(new EventData(1, "Name",
-                "description",
-                new LatLng(45, 45),
-                new Date(2, 3, 4, 1, 2, 5),
-                "email@example.com",
-                new ArrayList<String>()));
-
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, list, mTwoPane));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, eventList, mTwoPane));
     }
 
     public static class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ItemListActivity mParentActivity;
-        private final ArrayList<EventData> mValues;
+        private final List<EventData> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Integer item = (Integer) view.getTag();
+                EventData item = (EventData) view.getTag();
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
-                    arguments.putInt(ItemDetailFragment.ARG_ITEM_ID, item);
+                    arguments.putInt(ItemDetailFragment.ARG_ITEM_ID, item.id);
                     ItemDetailFragment fragment = new ItemDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -124,7 +116,7 @@ public class ItemListActivity extends AppCompatActivity {
                 } else {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, ItemDetailActivity.class);
-                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item);
+                    intent.putExtra(ItemDetailFragment.ARG_ITEM_ID, item.id);
 
                     context.startActivity(intent);
                 }
@@ -132,7 +124,7 @@ public class ItemListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(ItemListActivity parent,
-                                      ArrayList<EventData> items,
+                                      List<EventData> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
@@ -148,7 +140,7 @@ public class ItemListActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mContentView.setText("Temporary Name");
+            holder.mContentView.setText(mValues.get(position).name);
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
@@ -203,6 +195,7 @@ public class ItemListActivity extends AppCompatActivity {
             else
                 Log.d("Item list activity", "null");
             swipeRefreshLayout.setRefreshing(false);
+            setupRecyclerView(recyclerView);
         }
     }
 }
