@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="vertical">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -19,13 +19,33 @@
         app:cardBackgroundColor="@color/cardview_light_background"
         app:cardElevation="3dp">
 
-        <TextView
-            android:id="@+id/content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textAppearance="?attr/textAppearanceListItem"
-            android:theme="@style/AppTheme" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_marginBottom="0dp"
+                android:layout_weight="1"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:theme="@style/AppTheme" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/text_margin"
+                android:layout_weight="1"
+                android:textAppearance="?attr/textAppearanceListItem"
+                android:theme="@style/AppTheme" />
+        </LinearLayout>
+
     </android.support.v7.widget.CardView>
     android:dividerHeight="10dp"
 </LinearLayout>

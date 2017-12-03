@@ -141,7 +141,7 @@ public class ItemListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mContentView.setText(mValues.get(position).name);
-
+            holder.mTextBoxView.setText(mValues.get(position).time.toLocaleString());
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
         }
@@ -153,10 +153,11 @@ public class ItemListActivity extends AppCompatActivity {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final TextView mContentView;
-
+            final TextView mTextBoxView;
             ViewHolder(View view) {
                 super(view);
                 mContentView = view.findViewById(R.id.content);
+                mTextBoxView = view.findViewById(R.id.time);
             }
         }
     }
