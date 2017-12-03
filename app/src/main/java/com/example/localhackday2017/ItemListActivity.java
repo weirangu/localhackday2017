@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -48,8 +50,6 @@ public class ItemListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
                 startActivity(new Intent(ItemListActivity.this, CreateEventActivity.class));
             }
         });
@@ -68,9 +68,14 @@ public class ItemListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        ArrayList<Integer> list = new ArrayList();
-        list.add(1);
-        list.add(2);
+        ArrayList<EventData> list = new ArrayList();
+        list.add(new EventData(1, "Name",
+                "description",
+                new LatLng(45, 45),
+                new Date(2, 3, 4, 1, 2, 5),
+                "email@example.com",
+                new ArrayList<String>()));
+
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(this, list, mTwoPane));
     }
 
@@ -78,7 +83,7 @@ public class ItemListActivity extends AppCompatActivity {
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final ItemListActivity mParentActivity;
-        private final ArrayList<Integer> mValues;
+        private final ArrayList<EventData> mValues;
         private final boolean mTwoPane;
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
@@ -103,7 +108,7 @@ public class ItemListActivity extends AppCompatActivity {
         };
 
         SimpleItemRecyclerViewAdapter(ItemListActivity parent,
-                                      ArrayList<Integer> items,
+                                      ArrayList<EventData> items,
                                       boolean twoPane) {
             mValues = items;
             mParentActivity = parent;
