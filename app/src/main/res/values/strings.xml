@@ -14,8 +14,8 @@
         completions."
     </string>
     <string name="title_activity_main_maps">Map</string>
-    <string name="title_item_list">Items</string>
-    <string name="title_item_detail">Item Detail</string>
+    <string name="title_item_list">Events Near Me</string>
+    <string name="title_item_detail">Event Details</string>
     <string name="create_event_title">Create event</string>
     <string name="create_event_name">Event Name</string>
     <string name="create_event_location">Event Location</string>
